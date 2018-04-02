@@ -1,0 +1,160 @@
+"
+" Environment Setup
+"
+set encoding=utf8
+set termencoding=utf8
+set ttyfast			" Fast terminal
+set nocompatible                " not interested in pretending to be vi
+set mouse=a			" Enable Mouse Support
+set ffs=mac,unix,dos		" Filetypes
+set clipboard=unnamedplus	" Share clipboard with OS
+set lazyredraw			" Dont redraw in macros
+set autoread			" Autoload new file changes
+set nobackup                    " turn back up off
+set noswapfile                  " turn off swap files
+set nowb                        " ... forgotten related to above 2 parameters.
+set hidden 			" Hide buffers
+set history=500                 " Amount of history to store
+set undolevels=1000             " Undo levels
+if has("persistent_undo")
+    set undodir=~/.vim/.undo
+    set undofile
+endif
+"
+" Interface Setup
+"
+set cursorline                  " Highlight row cursor is on
+set number                      " Display line nubmers
+set virtualedit=onemore         " Allow the cursor to move 1 character past the end of the line
+set smarttab			" Enable smart-tabs
+set smartindent			" Enable smart-indents
+set autoindent                  " Automatically indent lines
+set shiftwidth=4		" 4 spaces to a tab
+set expandtab			" Expand tabs to spaces
+set so=3			" 3 lines above and below the cursor when scolling
+set ruler                       " cursor line, column position
+set showmatch                   " show matching bracketi
+set hlsearch                    " highlight search results
+set smartcase                   " Enable smart-case search
+set incsearch                   " Search for string incrementally
+" Setup status bar
+set statusline=%{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+set laststatus=2		" Always show status bar
+set wildmenu			" Provides tab completions in status bar
+"
+" Key Overrides and Mapping
+"
+let mapleader=','               " Override leader to use , instead of \
+"
+" Aliases
+" common mistakes
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Qall! qall!
+cnoreabbrev Wq! wq!
+cnoreabbrev Wa! wa!
+cnoreabbrev wQ! wq!
+"
+" Plugins
+"
+if has('unix') " Install plugin manager
+   if empty(glob('~/.vim/autoload/plug.vim'))
+       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+       autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
+endif
+" ... start plugins
+call plug#begin('~/.vim/plugged')
+
+    " Look
+    Plug 'altercation/vim-colors-solarized'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'tmux-plugins/vim-tmux'
+    Plug 'edkolev/tmuxline.vim'
+    Plug 'edkolev/promptline.vim'
+
+    " File Management
+    Plug 'scrooloose/nerdtree'
+    Plug 'xuyuanp/nerdtree-git-plugin'
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'tpope/vim-fugitive'
+    Plug 'airblade/vim-gitgutter'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'mbbill/undotree'
+    " data file formats
+    Plug 'chrisbra/csv.vim'
+    Plug 'mechatroner/rainbow_csv'
+    " Programming related
+    " utilties
+    Plug 'tpope/vim-surround'
+    Plug 'dhruvasagar/vim-table-mode'
+    Plug 'godlygeek/tabular'
+    " syntax
+    Plug 'mattn/emmet-vim'
+    Plug 'vim-syntastic/syntastic'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'gorodinskiy/vim-coloresque'
+    Plug 'othree/html5.vim'
+    Plug 'hail2u/vim-css3-syntax'
+    Plug 'jelera/vim-javascript-syntax'
+    Plug 'leafgarland/typescript-vim'
+    Plug 'peitalin/vim-jsx-typescript'
+
+call plug#end()
+" ... end pluginsi
+"
+" Setup Tabularize (align by text symbol)
+vnoremap <silent> <Leader>cee   :Tabularize /=<CR>      " create table using (=) delimiter
+vnoremap <silent> <Leader>ceh   :Tabularize /#<CR>      " create table using (#) delimiter
+vnoremap <silent> <leader>ce    :Tabularize /
+"
+" Setup syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+"
+" Theme
+set background=dark
+colorscheme solarized
+" let g:solarized_termcolors=256
+"
+" Airline
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tmuxline#enabled=1
+let airline#extensions#tmuxline#snapshot_file = "~/.config/tmux/tmux-status.conf"
+"
+" File Types and Handling
+"
+filetype indent on
+filetype plugin on
+syntax enable
+"
+" Ignore compiled folders and source control trees
+set wildignore=*.o,*~,*.pyc,*.dll,*.obj
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store/*
+endif
+
+"
+" Helper functions
+autocmd BufWritePre * :%s/\s\+$//e      " auto remove whitespace from end of file
+"
+" HasPaste(): returns true if paste mode is enabled
+"
+function! HasPaste()
+    if &paste
+	return 'PASTE MODE  '
+    endif
+    return ''
+endfunction

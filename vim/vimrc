@@ -6,7 +6,7 @@ set termencoding=utf8
 set ttyfast			" Fast terminal
 set nocompatible                " not interested in pretending to be vi
 set mouse=a			" Enable Mouse Support
-set ffs=mac,unix,dos		" Filetypes
+set ffs=unix,mac,dos		" Filetypes
 set clipboard=unnamedplus	" Share clipboard with OS
 set lazyredraw			" Dont redraw in macros
 set autoread			" Autoload new file changes

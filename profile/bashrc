@@ -1,8 +1,8 @@
 # Set bash to work with VI commands
 set -o vi on
 
-source ~/.config/profile/bash_aliases
+# source ~/.config/profile/bash_aliases
 # Load prompt configuration
-source ~/.config/profile/shell_prompt.sh
+source ~/dotfiles/profile/shell_prompt.sh
 # create temp files (WSL)
-sudo systemd-tmpfiles --create &>/dev/null
+# sudo systemd-tmpfiles --create &>/dev/null

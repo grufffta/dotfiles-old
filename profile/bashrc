@@ -7,6 +7,7 @@ source ~/.config/profile/bash_aliases
 # Load prompt configuration
 source ~/.config/profile/shell_prompt.sh
 
+<<<<<<< HEAD
 eval `dircolors ~/.config/colours/dircolors-solarized.256dark`
 
 function _update_ps1() {
@@ -15,3 +16,6 @@ function _update_ps1() {
 if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
+=======
+eval `dircolors ~/.config/colours/dircolors-solarized.256dark`
+>>>>>>> e01f61aa5ccb19746afa498cbb907201ef26df3f

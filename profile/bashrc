@@ -4,5 +4,5 @@ set -o vi on
 source ~/.config/profile/bash_aliases
 # Load prompt configuration
 source ~/.config/profile/shell_prompt.sh
-# create temp files (WSL)
-sudo systemd-tmpfiles --create &>/dev/null
+
+eval `dircolors ~/.config/colours/dircolors-solarized.256dark`
